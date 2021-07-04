@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <div class="row">
+
+        <h1 class="">Weather Dashboard</h1>
+
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col ">
+                <form id="form">
+                    <label class="form-label">Search fort a city:</label>
+                    <input type="text" id="city">
+                    <button type="button" id="search-city">Get Forecast</button>
+                </form>
+                <ul id="list" class="list-group border border-top border-dark my-3">
+                    
+                </ul>
+            </div>
+            <!--Current city, date, conditions-->
+            <div class="col ">
+                <div class="row">
+                    <div class="card" style="width:100%">
+                        <div class="card-body">
+                            <h2 class="card-title" id="currentCity"></h2>
+                            <p class="card-text" id="temp"></p>
+                            <p class="card-text" id="wind"></p>
+                            <p class="card-text" id="humidity"></p>
+                            <p class="card-text" id="uv"></p>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- 5-day Forecast -->
+                <div class="row">
+                    <h3 class="h3">5-Day Forecast:</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="./assets/script.js"></script>
+</body>
+</html>
