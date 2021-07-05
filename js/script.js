@@ -26,13 +26,13 @@ function currentConditions(city) {
                 lon = data.coord.lon;
                 icon = data.weather[0].icon;
                 // run 5day forecast and current conditions
-                fiveDayFc(city);
+                displayConditions(city);
             });
         } else {
             // if request unsuccessful
             savedSearch.shift();
             // send to LS
-            localStorage.setItem("cities", JSON.stringify(savedSearch));
+            localStorage.setItem("searches", JSON.stringify(savedSearch));
             // alert user to failed search
             alert("Sorry, we couldn't find that one. Try another!");
             location.reload();
@@ -94,13 +94,58 @@ function displayConditions(city) {
             </div>`);
         }
     })
-
 }
+
+// // show saved searches from localstorage
+// function showSavedSearches() {
+//     savedSearch = JSON.parse(localStorage.getItem("searches"));
+//     if (savedSearch == null) savedSearch = [];
+//     // limit displayed saves
+//     if (savedSearch.length > 10) {
+//         savedSearch.pop();
+//     }
+//     // clear list
+//     $("#list").html(" ");
+//     // create list items / city names
+//     for (let i = 0; i < savedSearch.length; i++) {
+//         $("#list").append(
+//             `<li id="${i}"class="list-group-item text-center font-weight-bold list-group-item-secondary my-2 mt-3">
+//             ${savedSearch[i]}
+//             </li>`
+//         );
+//     }
+//     // adding event listener to repopulated city name to display corresponding conditions again
+//     $(".list-group-item-secondary").on("click", function() {
+//         city = $(this).html().trim();
+//         currentConditions(city);
+//     });
+// }
 
 //////// END OF FUNCTIONS ////////
 
 
+
+
 //////// EVENT LISTENERS ////////
+
+// EL on Search button
+$("#search-city").on("click", function() {
+    // use value entered
+    city = $("#city").val();
+    // titleCase(city);
+    // avoid duplicating saved searches in LS
+    if (savedSearch.includes(city)) {
+        currentConditions(city);
+    } else {
+        // save search and show this search's data
+        localStorage.setItem("searches", JSON.stringify(savedSearch));
+        currentConditions(city);
+    }
+
+    
+
+})
+
 
 
 // show current city by defauly on page load
