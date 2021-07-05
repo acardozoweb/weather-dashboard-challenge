@@ -63,7 +63,7 @@ function displayConditions(city) {
         // get current temperature
         $("#temp").html(`Temp: ${data.current.temp} Celsius`);
         // get wind
-        $("#wind").html(`Wind: ${data.current.wind_speed} KPH`);
+        $("#wind").html(`Wind: ${data.current.wind_speed} KM/hour`);
         // get humidity
         $("#humidity").html(`Humidity: ${data.current.humidity} %`);
         // get UV index
@@ -96,43 +96,62 @@ function displayConditions(city) {
     })
 }
 
-// // show saved searches from localstorage
-// function showSavedSearches() {
-//     savedSearch = JSON.parse(localStorage.getItem("searches"));
-//     if (savedSearch == null) savedSearch = [];
-//     // limit displayed saves
-//     if (savedSearch.length > 10) {
-//         savedSearch.pop();
-//     }
-//     // clear list
-//     $("#list").html(" ");
-//     // create list items / city names
-//     for (let i = 0; i < savedSearch.length; i++) {
-//         $("#list").append(
-//             `<li id="${i}"class="list-group-item text-center font-weight-bold list-group-item-secondary my-2 mt-3">
-//             ${savedSearch[i]}
-//             </li>`
-//         );
-//     }
-//     // adding event listener to repopulated city name to display corresponding conditions again
-//     $(".list-group-item-secondary").on("click", function() {
-//         city = $(this).html().trim();
-//         currentConditions(city);
-//     });
-// }
+// show saved searches from localstorage
+function showSavedSearches() {
+    savedSearch = JSON.parse(localStorage.getItem("searches"));
+    if (savedSearch == null) savedSearch = [];
+    // limit displayed saves
+    if (savedSearch.length > 10) {
+        savedSearch.pop();
+    }
+    // clear list
+    $("#list").html(" ");
+    // create list items / city names
+    for (let i = 0; i < savedSearch.length; i++) {
+        $("#list").append(
+            `<li id="${i}"class="list-group-item list-group-item-secondary text-center font-weight-bold  my-2 mt-3">
+        ${savedSearch[i]}
+        </li>`
+        );
+    }
 
-//////// END OF FUNCTIONS ////////
+    // adding event listener to saved city name to display its data again
+    $(".list-group-item-secondary").on("click", function() {
+        city = $(this).html().trim();
+        currentConditions(city);
+    });
+}
+
+// search form handler
+function searchFormHandler(event) {
+    // prevent "Enter" from refreshing page
+    event.preventDefault();
+    // set entry as variable
+    city = $("#city").val();
+    // if entry was already searched, display its data
+    if (savedSearch.includes(city)) {
+        currentConditions(city);
+    } else {
+        // store entry, display data, display name in list
+        savedSearch.unshift(city);
+        localStorage.setItem("searches", JSON.stringify(savedSearch));
+        currentConditions(city);
+    }
+
+}
 
 
+//////// END OF FUNCTIONS
 
 
-//////// EVENT LISTENERS ////////
+// show saved searches on page load
+showSavedSearches();
+
 
 // EL on Search button
 $("#search-city").on("click", function() {
     // use value entered
     city = $("#city").val();
-    // titleCase(city);
     // avoid duplicating saved searches in LS
     if (savedSearch.includes(city)) {
         currentConditions(city);
@@ -141,12 +160,12 @@ $("#search-city").on("click", function() {
         localStorage.setItem("searches", JSON.stringify(savedSearch));
         currentConditions(city);
     }
+    // update saved searches list
+    showSavedSearches();
+    document.getElementById("form").reset();
+});
 
-    
-
-})
-
-
+form.addEventListener("submit", searchFormHandler);
 
 // show current city by defauly on page load
 $.ajax({
