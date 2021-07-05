@@ -49,6 +49,22 @@ function displayConditions(city) {
     })
     .then(function (data) {
         console.log(data)
+
+        // UV colour code
+        if (data.current.uvi < 3) {
+            background = "green";
+        }
+        if (data.current.uvi > 3) {
+            background = "yellow";
+        }
+        if (data.current.uvi > 5) {
+            background = "orange";
+            $("#uvi").css("color", "white");
+        }
+        if (data.current.uvi > 7) {
+            background = "red";
+        }
+
         // get weather icon
         icon = data.current.weather[0].icon;
         // get current date
@@ -68,7 +84,7 @@ function displayConditions(city) {
         $("#humidity").html(`Humidity: ${data.current.humidity} %`);
         // get UV index
         $("#uv").html(`UV Index: <span id="uvI">${data.current.uvi}</span>`);
-        $("#uvI").css("background-color");
+        $("#uvI").css("background-color", background);
         // clear previopus 5day forecast
         $(".forecastCards").html("");
 
@@ -99,6 +115,7 @@ function displayConditions(city) {
 // show saved searches from localstorage
 function showSavedSearches() {
     savedSearch = JSON.parse(localStorage.getItem("searches"));
+    console.log(savedSearch);
     if (savedSearch == null) savedSearch = [];
     // limit displayed saves
     if (savedSearch.length > 10) {
